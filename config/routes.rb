@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   root "boards#index"
 
   resources :boards do
-    resources :lists, only: [ :create, :update, :destroy ]
-    resources :cards, only: [ :create, :update, :destroy ]
+    resources :lists, only: [ :new, :create, :update, :destroy ]
+    resources :cards, only: [ :new, :create, :update, :destroy ]
   end
 end

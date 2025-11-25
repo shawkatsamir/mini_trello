@@ -2,7 +2,7 @@ class BoardsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @boards = Board.all
+    @boards = current_user.boards
   end
 
   def show
@@ -14,9 +14,9 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.new(board_params)
+    @board = current_user.boards.create(board_params)
     if @board.save
-      redirect_to @board
+      redirect_to @board, notice: "Board created successfully"
     else
       render :new
     end
@@ -25,6 +25,6 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:name, :description)
+    params.require(:board).permit(:name)
   end
 end
