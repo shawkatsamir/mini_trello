@@ -1,9 +1,9 @@
 <%= form_with model:  @list, url: board_lists_path(@board) do |l| %>
-<div class="">
-  <%= l.text_field :name %>
-</div>
-<div>
-  <%= l.submit %>
-</div>
+  <div class="">
+    <%= l.text_field :name %>
+  </div>
+  <div>
+    <%= l.submit %>
+  </div>
 
 <% end %>

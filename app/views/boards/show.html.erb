@@ -1,15 +1,107 @@
-<div class="">
-  <h1><%= @board.name %></h1>
+<div class="min-h-screen bg-gray-100 p-4 overflow-x-auto">
+  <div class="mb-6">
+    <h1 class=" text-2xl font-bold p-4 mb-4 "><%= @board.name %></h1>
+  </div>
 
-<div class="grid grid-cols-3">
-  <% @board.lists.each do |list| %>
-    <div class="">
-      <h2><%= list.name %></h2>
+  <div class="flex flex-shrink-0 w-64 space-x-4 pb-4" data-controller="board">
+    <% @board.lists.order(:position).each do |list| %>
+      <div
+        class="flex-shrink-0 w-64 bg-white rounded-lg shadow p-3"
+        data-controller="card-form"
+      >
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="font-bold text-gray-800"><%= list.name %></h3>
+          <%= button_to board_list_path(@board, list), method: :delete, class: "text-red-600 hover:text-red-800 bg-transparent border-none cursor-pointer p-0" do %>
+            <%= icon "trash", class: "w-4 h-4" %>
+          <% end %>
+        </div>
+
+        <div class="space-y-2 mb-4 min-h-10" data-list-id="<%= list.id %>">
+          <% list.cards.order(:position).each do |card| %>
+            <h4
+              class="bg-gray-50 p-2 rounded text-sm border border-gray-200"
+              data-card-id="<%= card.id %>"
+            >
+              <%= card.title %>
+            </h4>
+          <% end %>
+        </div>
+
+        <div data-card-form-target="form" class="hidden mt-3">
+          <%= form_with model: Card.new, url: board_cards_path(@board), local: true, html: { class: "space-y-2" } do |f| %>
+            <%= f.hidden_field :list_id, value: list.id %>
+            <%= f.text_field :title,
+                         placeholder: "Enter a title for this card...",
+                         class:
+                           "w-full p-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" %>
+            <div class="flex gap-2">
+              <%= f.submit "Add Card",
+                       class:
+                         "px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700" %>
+              <button
+                type="button"
+                data-action="click->card-form#hideForm"
+                class="
+                  px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300
+                "
+              >
+                Cancel
+              </button>
+            </div>
+          <% end %>
+        </div>
+
+        <button
+          type="button"
+          data-action="click->card-form#showForm"
+          class="
+            text-gray-500 hover:text-indigo-600 text-sm font-medium flex items-center
+          "
+        >
+          <span>➕</span>
+          Add a card
+        </button>
+      </div>
+    <% end %>
+
+    <div class="flex-shrink-0 w-64" data-controller="list-form">
+      <button
+        type="button"
+        data-action="click->list-form#showForm"
+        class="
+          text-gray-500 bg-gray-200 hover:text-indigo-600 text-sm font-medium flex
+          items-center border-2 rounded w-full p-2 justify-center
+        "
+      >
+        ➕ Add a list
+      </button>
+
+      <div data-list-form-target="form" class="hidden mt-2">
+        <%= form_with model: @list, url: board_lists_path(@board), local: true do |f| %>
+          <% if @list.errors.any? %>
+            <div class="text-red-500 text-xs mb-2">
+              <%= @list.errors.full_messages.join(", ") %>
+            </div>
+          <% end %>
+          <%= f.text_field :name,
+                       placeholder: "List name...",
+                       required: true,
+                       class: "w-full p-2 border rounded" %>
+          <div class="mt-1 flex gap-1">
+            <%= f.submit "Add", class: "btn" %>
+            <button
+              type="button"
+              data-action="click->list-form#hideForm"
+              class="
+                btn x-3 py-1 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300
+              "
+            >
+              Cancel
+            </button>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
-</div>
-
-<%= link_to "New List", new_board_list_path(@board) %>
-
-  <%= link_to "Back" , boards_path%>
+  </div>
+  <%= link_to "Back", boards_path %>
 </div>
