@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@prettier/plugin-ruby": "^4.0.4",
+    "prettier": "^3.7.3"
+  },
+  "dependencies": {
+    "@rails/request.js": "^0.0.12",
+    "@stimulus-components/sortable": "^5.0.3",
+    "sortablejs": "^1.15.6"
+  }
+}

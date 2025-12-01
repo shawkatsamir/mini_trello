@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_24_140329) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_01_192441) do
   create_table "boards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_140329) do
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "list_id", null: false
+    t.integer "position"
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["list_id"], name: "index_cards_on_list_id"
@@ -32,6 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_24_140329) do
     t.integer "board_id", null: false
     t.datetime "created_at", null: false
     t.string "name"
+    t.integer "position"
     t.datetime "updated_at", null: false
     t.index ["board_id"], name: "index_lists_on_board_id"
   end
