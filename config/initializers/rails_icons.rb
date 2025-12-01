@@ -8,5 +8,4 @@ RailsIcons.configure do |config|
   # config.libraries.radix.default.css = "size-6"
   # config.libraries.radix.default.stroke_width = "2"
   # config.libraries.radix.default.data = {}
-
 end
